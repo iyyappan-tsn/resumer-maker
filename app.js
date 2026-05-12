@@ -272,55 +272,55 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
-// ── DOWNLOAD RESUME AS PDF ───────────────────────────────────
+// ── DOWNLOAD RESUME AS REAL PDF ─────────────────────────────
 function downloadResume() {
-  const data = collectData();
-  const name = data.name || 'Resume';
-  const html = document.getElementById('resume-output').innerHTML;
+  const element = document.getElementById('resume-output');
 
-  const styles = `
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#222;font-size:13px;}
-    :root{--navy:#1a2744;--navy-light:#243258;--blue:#2563eb;--accent:#0ea5e9;--gray-50:#f1f5f9;--gray-100:#e2e8f0;--gray-300:#94a3b8;--gray-500:#64748b;--gray-700:#334155;}
-    .resume-doc{font-family:'Plus Jakarta Sans',sans-serif;padding:40px 48px;max-width:780px;margin:0 auto;font-size:13px;line-height:1.6;color:#222;}
-    .resume-classic .r-header{background:var(--navy);color:#fff;margin:-40px -48px 28px;padding:32px 48px;}
-    .resume-classic .r-name{font-size:28px;font-weight:800;margin-bottom:4px;}
-    .resume-classic .r-title{font-size:14px;opacity:0.8;margin-bottom:10px;}
-    .resume-classic .r-contact{font-size:12px;opacity:0.75;display:flex;gap:16px;flex-wrap:wrap;}
-    .resume-classic .r-section-title{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:4px;margin:20px 0 12px;}
-    .resume-modern{display:flex;padding:0;}
-    .resume-modern .r-sidebar{width:220px;background:var(--navy);color:#fff;padding:32px 24px;flex-shrink:0;min-height:700px;}
-    .resume-modern .r-main{flex:1;padding:32px;}
-    .resume-modern .r-name{font-size:22px;font-weight:800;margin-bottom:4px;}
-    .resume-modern .r-title{font-size:12px;opacity:0.75;margin-bottom:20px;}
-    .resume-modern .r-sidebar-section{margin-bottom:22px;}
-    .resume-modern .r-sidebar-section h4{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;opacity:0.6;margin-bottom:8px;}
-    .resume-modern .r-sidebar-section p{font-size:12px;opacity:0.88;margin-bottom:4px;}
-    .resume-modern .r-section-title{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--navy);border-left:3px solid var(--blue);padding-left:8px;margin:18px 0 10px;}
-    .resume-minimal .r-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #ddd;}
-    .resume-minimal .r-name{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:4px;}
-    .resume-minimal .r-title{font-size:14px;color:var(--blue);margin-bottom:8px;}
-    .resume-minimal .r-contact{font-size:12px;color:var(--gray-500);display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-    .resume-minimal .r-section-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-500);margin:20px 0 10px;}
-    .resume-executive .r-header{display:flex;align-items:center;justify-content:space-between;margin:-40px -48px 28px;padding:28px 48px;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;}
-    .resume-executive .r-header-left .r-name{font-size:26px;font-weight:800;margin-bottom:4px;}
-    .resume-executive .r-header-left .r-title{font-size:13px;opacity:0.75;}
-    .resume-executive .r-header-right{text-align:right;font-size:12px;opacity:0.8;line-height:1.8;}
-    .resume-executive .r-section-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);background:var(--gray-50);padding:4px 10px;border-radius:4px;display:inline-block;margin:18px 0 10px;}
-    .r-job{margin-bottom:14px;}
-    .r-job-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;}
-    .r-job-title{font-weight:700;font-size:13px;}
-    .r-job-date{font-size:12px;color:var(--gray-500);}
-    .r-job-company{font-size:12px;color:var(--blue);margin-bottom:5px;}
-    .r-job-desc{font-size:12px;color:#444;white-space:pre-wrap;}
-    .r-skills-list{display:flex;flex-wrap:wrap;gap:6px;}
-    .r-skill-tag{background:var(--gray-50);border:1px solid var(--gray-100);font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;color:var(--gray-700);}
-    .resume-modern .r-skill-tag{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff;}
-    .r-summary{font-size:13px;color:#444;line-height:1.7;margin-bottom:4px;}
-    @media print{
-      @page{margin:0;size:A4;}
-      body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  if (!element.innerHTML.trim()) {
+    alert('Please generate resume preview first.');
+    return;
+  }
+
+  const data = collectData();
+
+  const filename =
+    (data.name || 'resume')
+      .replace(/\s+/g, '_')
+      .toLowerCase() + '.pdf';
+
+  const opt = {
+    margin: 0,
+    filename: filename,
+    image: {
+      type: 'jpeg',
+      quality: 1
+    },
+    html2canvas: {
+      scale: 2,
+      useCORS: true
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: 'a4',
+      orientation: 'portrait'
     }
+  };
+
+  showLoading('Generating PDF...');
+
+  html2pdf()
+    .set(opt)
+    .from(element)
+    .save()
+    .then(() => {
+      hideLoading();
+    })
+    .catch(err => {
+      hideLoading();
+      console.error(err);
+      alert('PDF generation failed');
+    });
+}
   `;
 
   // Open a new popup window, write the resume, then trigger print dialog
