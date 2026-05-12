@@ -321,34 +321,7 @@ function downloadResume() {
       alert('PDF generation failed');
     });
 }
-  `;
-
-  // Open a new popup window, write the resume, then trigger print dialog
-  const printWin = window.open('', '_blank', 'width=900,height=700');
-  printWin.document.write(`<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8"/>
-  <title>${name} - Resume</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <style>${styles}</style>
-</head>
-<body>
-  ${html}
-  <script>
-    // Wait for fonts to load then print
-    document.fonts.ready.then(function() {
-      setTimeout(function() {
-        window.print();
-        // Close window after print dialog is dismissed
-        window.onafterprint = function() { window.close(); };
-      }, 400);
-    });
-  <\/script>
-</body>
-</html>`);
-  printWin.document.close();
-}
+ 
 
 // ── ATS CHECKER ──────────────────────────────────────────────
 async function checkATS() {
