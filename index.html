@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Resume Maker</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">Resume<strong>Maker</strong></span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn" onclick="showSection('home')">Home</button>
+      <button class="nav-btn" onclick="showSection('about')">About</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="section active">
+  <div class="hero">
+    <div class="hero-badge">✦ Free · No Sign-up · Instant</div>
+    <h1 class="hero-title">Build Your Perfect<br/><em>Resume</em> in Minutes</h1>
+    <p class="hero-sub">Create ATS-optimised resumes with beautiful templates. Check if your resume beats the bots — all free, no account needed.</p>
+    <div class="hero-cards">
+      <div class="action-card" onclick="showSection('create')">
+        <div class="card-icon">📄</div>
+        <h3>Create Resume</h3>
+        <p>Choose a template, fill in your details, and download a polished PDF-ready resume.</p>
+        <button class="card-btn">Get Started →</button>
+      </div>
+      <div class="action-card featured" onclick="showSection('ats')">
+        <div class="card-badge">AI Powered</div>
+        <div class="card-icon">🎯</div>
+        <h3>Check ATS Score</h3>
+        <p>Paste your resume and a job description. Get instant mistakes & suggestions to pass ATS filters.</p>
+        <button class="card-btn">Check Now →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREATE RESUME -->
+<section id="create" class="section">
+  <div class="page-header">
+    <button class="back-btn" onclick="showSection('home')">← Back</button>
+    <h2>Create Resume</h2>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps">
+    <div class="step active" id="step-dot-1">1 · Template</div>
+    <div class="step-line"></div>
+    <div class="step" id="step-dot-2">2 · Details</div>
+    <div class="step-line"></div>
+    <div class="step" id="step-dot-3">3 · Preview</div>
+  </div>
+
+  <!-- STEP 1: Templates -->
+  <div id="step-1" class="step-content active">
+    <h3 class="step-title">Choose a Template</h3>
+    <div class="templates-grid">
+      <div class="template-card" onclick="selectTemplate('classic')" id="tpl-classic">
+        <div class="tpl-preview classic-preview">
+          <div class="tpl-header-bar"></div>
+          <div class="tpl-lines"><span></span><span></span><span class="short"></span></div>
+          <div class="tpl-section-bar"></div>
+          <div class="tpl-lines"><span></span><span></span></div>
+        </div>
+        <p>Classic</p>
+      </div>
+      <div class="template-card" onclick="selectTemplate('modern')" id="tpl-modern">
+        <div class="tpl-preview modern-preview">
+          <div class="tpl-sidebar"></div>
+          <div class="tpl-main">
+            <div class="tpl-lines"><span></span><span></span></div>
+            <div class="tpl-section-bar sm"></div>
+            <div class="tpl-lines"><span></span></div>
+          </div>
+        </div>
+        <p>Modern</p>
+      </div>
+      <div class="template-card" onclick="selectTemplate('minimal')" id="tpl-minimal">
+        <div class="tpl-preview minimal-preview">
+          <div class="tpl-top-name"></div>
+          <div class="tpl-divider"></div>
+          <div class="tpl-lines"><span></span><span></span><span class="short"></span></div>
+        </div>
+        <p>Minimal</p>
+      </div>
+      <div class="template-card" onclick="selectTemplate('executive')" id="tpl-executive">
+        <div class="tpl-preview executive-preview">
+          <div class="tpl-exec-top">
+            <div class="tpl-name-block"></div>
+            <div class="tpl-accent-bar"></div>
+          </div>
+          <div class="tpl-lines mt"><span></span><span></span></div>
+        </div>
+        <p>Executive</p>
+      </div>
+    </div>
+    <button class="primary-btn" onclick="goStep(2)" id="next-1" disabled>Next: Fill Details →</button>
+  </div>
+
+  <!-- STEP 2: Form -->
+  <div id="step-2" class="step-content">
+    <h3 class="step-title">Your Information</h3>
+    <div class="form-wrap">
+      <div class="form-section">
+        <h4>Personal Info</h4>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="f-name" placeholder="Iyyappan S"/></div>
+          <div class="form-group"><label>Job Title *</label><input type="text" id="f-title" placeholder="Software Engineer"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email *</label><input type="email" id="f-email" placeholder="you@email.com"/></div>
+          <div class="form-group"><label>Phone</label><input type="text" id="f-phone" placeholder="+91 98765 43210"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Location</label><input type="text" id="f-location" placeholder="Chennai, India"/></div>
+          <div class="form-group"><label>LinkedIn / Portfolio URL</label><input type="text" id="f-linkedin" placeholder="linkedin.com/in/yourname"/></div>
+        </div>
+        <div class="form-group full">
+          <label>Professional Summary</label>
+          <textarea id="f-summary" rows="3" placeholder="A brief 2-3 sentence summary of your professional background and goals..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Work Experience</h4>
+        <div id="exp-container"></div>
+        <button class="add-btn" onclick="addExp()">+ Add Experience</button>
+      </div>
+
+      <div class="form-section">
+        <h4>Education</h4>
+        <div id="edu-container"></div>
+        <button class="add-btn" onclick="addEdu()">+ Add Education</button>
+      </div>
+
+      <div class="form-section">
+        <h4>Skills</h4>
+        <div class="form-group full">
+          <label>Skills (comma separated)</label>
+          <input type="text" id="f-skills" placeholder="JavaScript, React, Node.js, Python, SQL, Git"/>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Certifications / Awards (optional)</h4>
+        <div class="form-group full">
+          <textarea id="f-certs" rows="2" placeholder="AWS Certified Developer, Google UX Design Certificate..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="secondary-btn" onclick="goStep(1)">← Back</button>
+      <button class="primary-btn" onclick="goStep(3)">Preview Resume →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Preview & Download -->
+  <div id="step-3" class="step-content">
+    <h3 class="step-title">Preview & Download</h3>
+    <div class="preview-actions">
+      <button class="secondary-btn" onclick="goStep(2)">← Edit</button>
+      <button class="primary-btn" onclick="downloadResume()">⬇ Download Resume</button>
+    </div>
+    <div id="resume-preview-wrap">
+      <div id="resume-output"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ATS CHECKER -->
+<section id="ats" class="section">
+  <div class="page-header">
+    <button class="back-btn" onclick="showSection('home')">← Back</button>
+    <h2>ATS Score Checker</h2>
+  </div>
+  <div class="ats-wrap">
+    <div class="ats-inputs">
+      <div class="form-group full">
+        <label>📋 Paste Your Resume Text *</label>
+        <textarea id="ats-resume" rows="10" placeholder="Paste the full text of your resume here..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>💼 Paste Job Description (optional but recommended)</label>
+        <textarea id="ats-jd" rows="6" placeholder="Paste the job description you are applying to..."></textarea>
+      </div>
+      <button class="primary-btn full-width" onclick="checkATS()" id="ats-btn">🎯 Analyse Resume</button>
+    </div>
+    <div id="ats-result" class="ats-result hidden">
+      <div id="ats-score-box"></div>
+      <div id="ats-content"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="page-header">
+    <button class="back-btn" onclick="showSection('home')">← Back</button>
+    <h2>About</h2>
+  </div>
+  <div class="about-wrap">
+    <div class="about-card">
+      <div class="about-icon">◈</div>
+      <h2>Resume<strong>Maker</strong></h2>
+      <p class="about-tagline">Build better resumes. Land more interviews.</p>
+      <hr/>
+      <div class="about-grid">
+        <div class="about-feat"><span>📄</span><p><strong>Free Templates</strong><br/>4 professionally designed resume templates ready to use</p></div>
+        <div class="about-feat"><span>🎯</span><p><strong>AI ATS Checker</strong><br/>Powered by Claude AI to analyse and improve your resume</p></div>
+        <div class="about-feat"><span>🔒</span><p><strong>No Login Required</strong><br/>Your data never leaves your browser. 100% private.</p></div>
+        <div class="about-feat"><span>⚡</span><p><strong>Instant & Free</strong><br/>No subscriptions, no hidden fees, no account needed</p></div>
+      </div>
+      <hr/>
+      <div class="dev-section">
+        <div class="dev-avatar">IS</div>
+        <div>
+          <p class="dev-name">Iyyappan S</p>
+          <p class="dev-role">Developer & Designer</p>
+          <p class="dev-bio">A passionate developer who believes everyone deserves a great resume. Built Resume Maker to make professional resume creation accessible to all — especially students and first-time job seekers — completely free.</p>
+        </div>
+      </div>
+      <p class="version-tag">Resume Maker v1.0 · Open Source · MIT License</p>
+    </div>
+  </div>
+</section>
+
+<!-- Loading overlay -->
+<div id="loading-overlay" class="loading-overlay hidden">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <p id="loading-msg">Analysing your resume with AI...</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
