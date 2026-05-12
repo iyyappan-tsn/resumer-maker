@@ -522,3 +522,68 @@ function hideLoading() {
   // Select classic by default
   selectTemplate('classic');
 })();
+// ── RESUME FILE UPLOAD ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+
+  const fileInput = document.getElementById('resume-file');
+
+  if (fileInput) {
+    fileInput.addEventListener('change', handleResumeUpload);
+  }
+
+});
+
+async function handleResumeUpload(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const ext = file.name.split('.').pop().toLowerCase();
+
+  showLoading('Reading resume file...');
+
+  try {
+
+    if (ext === 'txt') {
+
+      const text = await file.text();
+
+      document.getElementById('ats-resume').value = text;
+    }
+
+    else if (ext === 'pdf') {
+
+      const arrayBuffer = await file.arrayBuffer();
+
+      const pdf = await pdfjsLib.getDocument({
+        data: arrayBuffer
+      }).promise;
+
+      let text = '';
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+
+        const page = await pdf.getPage(i);
+
+        const content = await page.getTextContent();
+
+        const strings = content.items.map(item => item.str);
+
+        text += strings.join(' ') + '\n';
+      }
+
+      document.getElementById('ats-resume').value = text;
+    }
+
+    hideLoading();
+
+  } catch (err) {
+
+    hideLoading();
+
+    console.error(err);
+
+    alert('Could not read file');
+  }
+}
