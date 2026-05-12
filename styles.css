@@ -387,3 +387,11 @@ body {
   #resume-preview-wrap { box-shadow: none; border: none; }
   #step-3 { display: block !important; }
 }
+input[type="file"] {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  width: 100%;
+  cursor: pointer;
+}
